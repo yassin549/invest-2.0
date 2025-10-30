@@ -249,6 +249,43 @@ All platforms support custom domains:
 
 ## 🐛 Troubleshooting
 
+### "Application failed to respond" (Railway)
+**This is the most common Railway deployment error!**
+
+**Symptoms:**
+- Build completes successfully
+- Deploy logs show "Starting Container"
+- Browser shows "Application failed to respond"
+
+**Causes & Solutions:**
+
+1. **Missing PHP Extensions**
+   - Laravel 11 requires: PDO, PDO_MySQL, MBString, XML, Curl, Zip, BCMath, GD
+   - Nixpacks auto-detects these from `composer.json`
+   - If still failing, check build logs for extension errors
+
+2. **Storage Directory Permissions**
+   - Laravel needs writable `storage/` and `bootstrap/cache/`
+   - The `nixpacks.toml` now creates these automatically
+   - Check deploy logs for permission errors
+
+3. **Database Connection Timeout**
+   - MySQL must be fully provisioned before app starts
+   - Wait 1-2 minutes after adding MySQL
+   - Verify MySQL service shows "Active" status
+   - Check that database reference is added to app service
+
+4. **Migration Failures**
+   - If migrations fail, app won't start
+   - Check deploy logs for SQL errors
+   - Ensure `APP_KEY` is set before first deploy
+
+**Quick Fix:**
+1. Check **Deploy Logs** tab for actual error
+2. Verify MySQL service is "Active" and linked
+3. Redeploy the service (click "Deploy" button)
+4. If still failing, check the startup script output in logs
+
 ### "500 Internal Server Error"
 - Check `storage/logs/laravel.log`
 - Ensure `APP_KEY` is set
@@ -258,6 +295,7 @@ All platforms support custom domains:
 - Verify database credentials in `.env`
 - Check if database service is running
 - Ensure IP whitelist (for cloud databases)
+- For Railway: Ensure MySQL reference is added to app variables
 
 ### "Class not found"
 - Run `composer install`
