@@ -28,13 +28,13 @@ cmds = [
   "cd Files/core && echo 'LOG_CHANNEL=stack' >> .env",
   "cd Files/core && echo 'LOG_STACK=single' >> .env",
   "cd Files/core && echo 'LOG_DEPRECATIONS_CHANNEL=null' >> .env",
-  "cd Files/core && echo 'LOG_LEVEL=error' >> .env",
+  "cd Files/core && echo 'LOG_LEVEL=debug' >> .env",
   "cd Files/core && echo '' >> .env",
   "cd Files/core && echo 'DB_CONNECTION=mysql' >> .env",
-  "cd Files/core && echo \"DB_HOST=${MYSQLHOST:-mysql.railway.internal}\" >> .env",
-  "cd Files/core && echo \"DB_PORT=${MYSQLPORT:-3306}\" >> .env",
-  "cd Files/core && echo \"DB_DATABASE=${MYSQLDATABASE:-railway}\" >> .env",
-  "cd Files/core && echo \"DB_USERNAME=${MYSQLUSER:-root}\" >> .env",
+  "cd Files/core && echo \"DB_HOST=${MYSQLHOST}\" >> .env",
+  "cd Files/core && echo \"DB_PORT=${MYSQLPORT}\" >> .env",
+  "cd Files/core && echo \"DB_DATABASE=${MYSQLDATABASE}\" >> .env",
+  "cd Files/core && echo \"DB_USERNAME=${MYSQLUSER}\" >> .env",
   "cd Files/core && echo \"DB_PASSWORD=${MYSQLPASSWORD}\" >> .env",
   "cd Files/core && echo 'DB_SOCKET=' >> .env",
   "cd Files/core && echo '' >> .env",
@@ -61,12 +61,12 @@ cmds = [
   "cd Files/core && echo 'MAIL_FROM_NAME=\"${APP_NAME}\"' >> .env",
   "cd Files/core && echo '' >> .env",
   "cd Files/core && echo 'VITE_APP_NAME=\"${APP_NAME}\"' >> .env",
-  "cd Files/core && echo 'Checking .env file:' && head -20 .env",
   "cd Files/core && mkdir -p storage/framework/{sessions,views,cache}",
   "cd Files/core && mkdir -p storage/logs",
   "cd Files/core && mkdir -p bootstrap/cache",
-  "cd Files/core && chmod -R 775 storage bootstrap/cache"
+  "cd Files/core && chmod -R 775 storage bootstrap/cache",
+  "chmod +x start.sh"
 ]
 
 [start]
-cmd = "cd Files/core && echo 'Starting Laravel app...' && php -v && php artisan --version && echo 'Testing DB connection...' && php artisan tinker --execute='DB::connection()->getPdo(); echo \"DB Connected!\";' && echo 'Running migrations...' && php artisan migrate --force && echo 'Starting server...' && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "bash start.sh"
