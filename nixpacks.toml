@@ -2,7 +2,7 @@
 nixPkgs = ["php83", "php83Packages.composer"]
 
 [phases.install]
-cmds = ["cd core && composer install --no-dev --optimize-autoloader"]
+cmds = ["cd Files/core && composer install --no-dev --optimize-autoloader"]
 
 [start]
-cmd = "cd core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "cd Files/core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"

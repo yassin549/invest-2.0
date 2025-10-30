@@ -2,10 +2,10 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd core && composer install --no-dev --optimize-autoloader"
+    "watchPatterns": ["Files/**"]
   },
   "deploy": {
-    "startCommand": "cd core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT",
+    "startCommand": "cd Files/core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
