@@ -26,19 +26,24 @@ class AppServiceProvider extends ServiceProvider {
      * Bootstrap any application services.
      */
     public function boot(): void {
-        if (!cache()->get('SystemInstalled')) {
-            $envFilePath = base_path('vendor/psr/log/.env');
-            if (!file_exists($envFilePath)) {
-                header('Location: install');
-                exit;
+        try {
+            if (!cache()->get('SystemInstalled')) {
+                $envFilePath = base_path('.env');
+                if (!file_exists($envFilePath)) {
+                    header('Location: install');
+                    exit;
+                }
+                $envContents = file_get_contents($envFilePath);
+                if (empty($envContents)) {
+                    header('Location: install');
+                    exit;
+                } else {
+                    cache()->put('SystemInstalled', true);
+                }
             }
-            $envContents = file_get_contents($envFilePath);
-            if (empty($envContents)) {
-                header('Location: install');
-                exit;
-            } else {
-                cache()->put('SystemInstalled', true);
-            }
+        } catch (\Exception $e) {
+            // Cache may not be available yet during initial setup
+            // Continue without caching system installed status
         }
 
         $viewShare['emptyMessage'] = 'Data not found';

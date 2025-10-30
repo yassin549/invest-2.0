@@ -62,7 +62,7 @@ cmds = [
   "cd Files/core && echo 'FILESYSTEM_DISK=local' >> .env",
   "cd Files/core && echo 'QUEUE_CONNECTION=database' >> .env",
   "cd Files/core && echo '' >> .env",
-  "cd Files/core && echo 'CACHE_STORE=database' >> .env",
+  "cd Files/core && echo 'CACHE_STORE=file' >> .env",
   "cd Files/core && echo 'CACHE_PREFIX=' >> .env",
   "cd Files/core && echo '' >> .env",
   "cd Files/core && echo 'MAIL_MAILER=log' >> .env",
