@@ -7,6 +7,10 @@ echo "========================================="
 
 cd /app/Files/core
 
+# Ensure public directory exists (Laravel expects it)
+mkdir -p public
+echo "→ Ensured public directory exists"
+
 echo "→ PHP Version:"
 php -v
 

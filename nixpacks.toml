@@ -78,7 +78,8 @@ cmds = [
   "cd Files/core && mkdir -p storage/framework/{sessions,views,cache}",
   "cd Files/core && mkdir -p storage/logs",
   "cd Files/core && mkdir -p bootstrap/cache",
-  "cd Files/core && chmod -R 775 storage bootstrap/cache",
+  "cd Files/core && mkdir -p public",
+  "cd Files/core && chmod -R 775 storage bootstrap/cache public",
   "chmod +x start.sh"
 ]
 
