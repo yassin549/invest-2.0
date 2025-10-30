@@ -54,6 +54,11 @@ try {
 " || { echo "Database connection test failed or timed out"; exit 1; }
 
 echo ""
+echo "→ Clearing any cached config..."
+php artisan config:clear || true
+php artisan cache:clear || true
+
+echo ""
 echo "→ Running migrations..."
 php artisan migrate --force --no-interaction || { echo "Migration failed"; exit 1; }
 
