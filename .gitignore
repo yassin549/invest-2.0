@@ -1,0 +1,46 @@
+# Laravel
+/core/vendor/
+/core/node_modules/
+/core/.env
+/core/.env.backup
+/core/.phpunit.result.cache
+/core/Homestead.json
+/core/Homestead.yaml
+/core/npm-debug.log
+/core/yarn-error.log
+/core/.DS_Store
+/core/Thumbs.db
+
+# Storage
+/core/storage/*.key
+/core/storage/app/*
+!/core/storage/app/.gitignore
+/core/storage/framework/cache/*
+!/core/storage/framework/cache/.gitignore
+/core/storage/framework/sessions/*
+!/core/storage/framework/sessions/.gitignore
+/core/storage/framework/testing/*
+!/core/storage/framework/testing/.gitignore
+/core/storage/framework/views/*
+!/core/storage/framework/views/.gitignore
+/core/storage/logs/*
+!/core/storage/logs/.gitignore
+
+# Bootstrap cache
+/core/bootstrap/cache/*
+!/core/bootstrap/cache/.gitignore
+
+# Public storage
+/core/public/storage
+/core/public/hot
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
