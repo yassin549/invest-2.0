@@ -107,5 +107,4 @@ $app = Application::configure(basePath: dirname(__DIR__))
         });
     })->create();
 
-$app->loadEnvironmentFrom('vendor/psr/log/.env');
 return $app;
