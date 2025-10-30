@@ -68,4 +68,4 @@ cmds = [
 ]
 
 [start]
-cmd = "cd Files/core && php artisan migrate --force && cd .. && php -S 0.0.0.0:$PORT -t . -d display_errors=1"
+cmd = "cd Files/core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
