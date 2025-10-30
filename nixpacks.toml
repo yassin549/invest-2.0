@@ -61,6 +61,7 @@ cmds = [
   "cd Files/core && echo 'MAIL_FROM_NAME=\"${APP_NAME}\"' >> .env",
   "cd Files/core && echo '' >> .env",
   "cd Files/core && echo 'VITE_APP_NAME=\"${APP_NAME}\"' >> .env",
+  "cd Files/core && echo 'Checking .env file:' && head -20 .env",
   "cd Files/core && mkdir -p storage/framework/{sessions,views,cache}",
   "cd Files/core && mkdir -p storage/logs",
   "cd Files/core && mkdir -p bootstrap/cache",
@@ -68,4 +69,4 @@ cmds = [
 ]
 
 [start]
-cmd = "cd Files/core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "cd Files/core && echo 'Starting Laravel app...' && php -v && php artisan --version && echo 'Testing DB connection...' && php artisan tinker --execute='DB::connection()->getPdo(); echo \"DB Connected!\";' && echo 'Running migrations...' && php artisan migrate --force && echo 'Starting server...' && php artisan serve --host=0.0.0.0 --port=$PORT"
