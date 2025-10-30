@@ -2,7 +2,28 @@
 nixPkgs = ["php83", "php83Packages.composer"]
 
 [phases.install]
-cmds = ["cd Files/core && composer install --no-dev --optimize-autoloader --no-scripts"]
+cmds = [
+  "cd Files/core",
+  "composer install --no-dev --optimize-autoloader --no-scripts",
+  "cp .env.example .env || true"
+]
+
+[phases.build]
+cmds = [
+  "cd Files/core",
+  # Set database connection from Railway MySQL service
+  "echo 'DB_CONNECTION=mysql' >> .env",
+  "echo \"DB_HOST=${MYSQLHOST:-127.0.0.1}\" >> .env",
+  "echo \"DB_PORT=${MYSQLPORT:-3306}\" >> .env",
+  "echo \"DB_DATABASE=${MYSQLDATABASE:-laravel}\" >> .env",
+  "echo \"DB_USERNAME=${MYSQLUSER:-root}\" >> .env",
+  "echo \"DB_PASSWORD=${MYSQLPASSWORD}\" >> .env",
+  # Set app configuration
+  "echo \"APP_KEY=${APP_KEY}\" >> .env",
+  "echo \"APP_ENV=${APP_ENV:-production}\" >> .env",
+  "echo \"APP_DEBUG=${APP_DEBUG:-false}\" >> .env",
+  "echo \"APP_URL=${APP_URL}\" >> .env"
+]
 
 [start]
-cmd = "cd Files/core && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "cd Files/core && php artisan config:clear && php artisan cache:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"

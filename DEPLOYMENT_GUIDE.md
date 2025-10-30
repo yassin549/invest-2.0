@@ -14,61 +14,73 @@ Before deploying, ensure you have:
 
 ---
 
-## 🎯 Option 1: Railway.app (RECOMMENDED)
+## 🎯 Option 1: Railway.app (RECOMMENDED) ⭐
 
 **Best for:** Full Laravel apps with database, cron jobs, and storage
 **Free Tier:** $5 credit/month (enough for small apps)
 
-### Step 1: Prepare Your Project
+> **📌 Quick Fix:** If you're getting MySQL connection errors, see [RAILWAY_SETUP.md](./RAILWAY_SETUP.md) for immediate troubleshooting.
 
-1. **Create a Procfile** in the root directory (`Files/` folder):
-```
-web: cd core && php artisan migrate --force && php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan serve --host=0.0.0.0 --port=$PORT
-```
-
-2. **Create a railway.json** in the root directory:
-```json
-{
-  "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "NIXPACKS"
-  },
-  "deploy": {
-    "startCommand": "cd core && php artisan serve --host=0.0.0.0 --port=$PORT",
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  }
-}
-```
-
-### Step 2: Deploy to Railway
+### Step 1: Deploy to Railway
 
 1. Go to [railway.app](https://railway.app) and sign up with GitHub
 2. Click **"New Project"** → **"Deploy from GitHub repo"**
 3. Select your repository
-4. Railway will auto-detect Laravel and deploy
+4. Railway will auto-detect Laravel using `nixpacks.toml` and start building
 
-### Step 3: Add Database
+### Step 2: Add MySQL Database ⚠️ CRITICAL
 
-1. In your Railway project, click **"+ New"** → **"Database"** → **"Add MySQL"**
-2. Railway will automatically set `DATABASE_URL` environment variable
-3. Add these environment variables in Railway dashboard:
-   - `APP_KEY` - Generate with: `php artisan key:generate --show`
-   - `APP_ENV=production`
-   - `APP_DEBUG=false`
-   - `APP_URL` - Your Railway app URL
-   - `DB_CONNECTION=mysql`
-   - `DB_HOST` - From Railway MySQL service
-   - `DB_PORT=3306`
-   - `DB_DATABASE` - From Railway MySQL service
-   - `DB_USERNAME` - From Railway MySQL service
-   - `DB_PASSWORD` - From Railway MySQL service
+**This step is REQUIRED - the app will not work without it!**
 
-### Step 4: Run Migrations
+1. In your Railway project, click **"+ New"**
+2. Select **"Database"** → **"Add MySQL"**
+3. Wait for MySQL to provision (~30 seconds)
+4. Railway automatically creates these variables in the MySQL service:
+   - `MYSQLHOST`
+   - `MYSQLPORT`
+   - `MYSQLDATABASE`
+   - `MYSQLUSER`
+   - `MYSQLPASSWORD`
 
-1. In Railway dashboard, go to your app service
-2. Click **"Settings"** → **"Deploy"**
-3. Add to start command: `php artisan migrate --force`
+### Step 3: Link Database to Your App
+
+1. Click on your app service (e.g., `invest-2.0`)
+2. Go to **"Variables"** tab
+3. Click **"+ New Variable"** → **"Add Reference"**
+4. Select your MySQL service
+5. This makes MySQL variables available to your app
+
+### Step 4: Configure Environment Variables
+
+In your app service, add these variables:
+
+```env
+APP_KEY=base64:YOUR_GENERATED_KEY_HERE
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-app.up.railway.app
+```
+
+**Generate APP_KEY:**
+```bash
+php artisan key:generate --show
+```
+
+Or use this test key (⚠️ generate new for production):
+```
+base64:8KzP3vJ9mN2qR5tW7xY1zA4bC6dE8fG0hI2jK4lM6nO=
+```
+
+### Step 5: Deploy & Verify
+
+1. Push a commit or click **"Deploy"** to trigger redeployment
+2. The `nixpacks.toml` will automatically:
+   - Install dependencies
+   - Create `.env` with MySQL credentials
+   - Run migrations
+   - Start the server
+3. Check **"Logs"** tab to verify successful deployment
+4. Visit your app URL to confirm it's working
 
 ---
 
