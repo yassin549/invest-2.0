@@ -68,9 +68,9 @@ php artisan migrate --force --no-interaction || { echo "Migration failed"; exit 
 
 echo ""
 echo "→ Optimizing application..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:cache || echo "Warning: config:cache failed"
+php artisan route:cache || echo "Warning: route:cache failed"
+php artisan view:cache || echo "Warning: view:cache failed"
 
 echo ""
 echo "→ Starting web server from Files directory..."
