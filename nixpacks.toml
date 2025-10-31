@@ -26,7 +26,7 @@ cmds = [
   "cd Files/core && echo 'APP_NAME=\"HYIP Lab\"' > .env",
   "cd Files/core && echo 'APP_ENV=production' >> .env",
   "cd Files/core && echo \"APP_KEY=${APP_KEY}\" >> .env",
-  "cd Files/core && echo 'APP_DEBUG=false' >> .env",
+  "cd Files/core && echo 'APP_DEBUG=true' >> .env",
   "cd Files/core && echo 'APP_TIMEZONE=UTC' >> .env",
   "cd Files/core && echo \"APP_URL=${APP_URL}\" >> .env",
   "cd Files/core && echo '' >> .env",
